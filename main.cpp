@@ -1,3 +1,6 @@
+#include "header/player.hpp"
+#include "header/enemy.hpp"
+#include "header/bullet.hpp"
 #include <raylib.h>
 #include <raymath.h>
 #include <vector>
@@ -5,76 +8,6 @@
 static float gravity = 9.81f;
 static const int width = 800;
 static const int height = 450;
-
-class Player {
-  public:
-    Vector2 pos;
-    float size = 25.0f;
-    float speed = 500.0;
-    Vector2 vel = {0.0f, 0.0f};
-    short dir = 0;
-    short forward = 0;
-    bool isShooting = false;
-    bool isAlive = true;
-    Player(Vector2 p = {0, 0}) {
-      pos = p;
-    }
-    void update(float dt) {
-      Vector2 input = { (float)dir, (float)forward };
-      if (input.x != 0 || input.y != 0) {
-          input = Vector2Normalize(input);
-          vel.x = input.x * speed;
-          vel.y = input.y * speed;
-      }
-      pos.x += vel.x * dt;
-      pos.y += vel.y * dt;
-
-      vel.x *= 0.8f;
-      vel.y *= 0.8f;
-
-      if (isShooting) {
-        size -= 5.0f;
-        isShooting = false;
-      }
-
-      if (size < 25.0f) {
-        size += 0.05f;
-      }
-
-      if (size <= 0) isAlive = false;
-
-      if (!isAlive) size = 25.0f; isAlive = true;
-    }
-    void draw(void) {
-      DrawCircleV(pos, size, MAROON);
-    }
-};
-
-class Bullet {
-  public:
-    Vector2 pos;
-    Vector2 vel;
-    float life = 1.0f;
-    float size = 5.0f;
-    Bullet(Vector2 p, Vector2 v) {
-      pos = p;
-      vel = v;
-    }
-    void update(void) {
-      pos.x += vel.x;
-      pos.y += vel.y;
-
-      vel.x *= 0.8f;
-      vel.y *= 0.8f;
-
-      life -= 0.05f;
-    }
-    void draw(void) {
-        Color c = Fade(RED, life);
-        DrawCircleV(pos, size, c);
-    }
-    bool isDead(void) const { return life <= 0; }
-};
 
 int main(void) {
   InitWindow(width, height, "RHAFQ");
@@ -109,7 +42,7 @@ int main(void) {
     }
 
     for (auto it = bullets.begin(); it != bullets.end();) {
-      (*it)->update();
+      (*it)->update(dt);
       if ((*it)->isDead()) {
         delete *it;
         it = bullets.erase(it);
