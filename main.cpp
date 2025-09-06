@@ -86,9 +86,9 @@ int main(void) {
 
     DrawRectangle(0, 0, 400, 100, BLUE);
     DrawText("rhalq", 10, 5, 20, MAROON);
-    DrawText("wasd to move", 10, 10, 5, MAROON);
-    DrawText("space to shoot", 10, 15, 5, MAROON);
-    DrawText("shift to blink", 10, 20, 5, MAROON);
+    DrawText("wasd to move", 10, 25, 15, MAROON);
+    DrawText("space to shoot", 10, 40, 15, MAROON);
+    DrawText("shift to blink", 10, 55, 15, MAROON);
 
     EndDrawing();
   }

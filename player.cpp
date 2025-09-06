@@ -45,7 +45,7 @@ void Player::update(float dt) {
         csize += 0.05f;
     }
 
-    if (csize <= 1) {
+    if (csize <= 5.0f) {
         if (layer > 0) {
             layer--;
             csize = size;
