@@ -10,10 +10,15 @@ static const int width = 800;
 static const int height = 450;
 
 int main(void) {
-  InitWindow(width, height, "RHAFQ");
+  InitWindow(width, height, "RHALQ");
 
   Player player = Player({0, 0});
   std::vector<Bullet*> bullets;
+  std::vector<Enemy*> enemies;
+  
+  for (int i=0; i<20; i++) {
+    enemies.push_back(new Enemy((Vector2){(float)(i * 20), 0}));
+  }
 
   Camera2D camera = { 0 };
   camera.offset = (Vector2){width/2.0f, height/2.0f};
@@ -25,6 +30,11 @@ int main(void) {
 
     player.update(dt);
 
+    for (auto it = enemies.begin(); it != enemies.end();) {
+      (*it)->update(dt, player.pos);
+      ++it;
+    }
+
     camera.target.x += (player.pos.x - camera.target.x) * 0.3f;
     camera.target.y += (player.pos.y - camera.target.y) * 0.3f;
 
@@ -35,10 +45,18 @@ int main(void) {
     if (IsKeyDown(KEY_S)) player.forward += 1;
     if (IsKeyDown(KEY_A)) player.dir -= 1;
     if (IsKeyDown(KEY_D)) player.dir += 1;
+
+    // idk if its alright
     if (IsKeyPressed(KEY_SPACE)) {
       player.isShooting = true;
-      Vector2 bulletVel = { 0, -10 };
-      bullets.push_back(new Bullet(player.pos, bulletVel));
+      for (int i=0; i <= 360; i+=2) {
+        bullets.push_back(new Bullet(player.pos, (Vector2){cos(static_cast<float>(i)) * 30, sin(static_cast<float>(i)) * 30}));
+      }
+    }
+
+    // hmmm
+    if (IsKeyPressed(KEY_LEFT_SHIFT) || IsKeyPressed(KEY_RIGHT_SHIFT)) {
+      player.isDodging = true;
     }
 
     for (auto it = bullets.begin(); it != bullets.end();) {
@@ -52,7 +70,7 @@ int main(void) {
     }
 
     BeginDrawing();
-    ClearBackground(LIGHTGRAY);
+    ClearBackground(RAYWHITE);
 
     BeginMode2D(camera);
 
@@ -60,15 +78,22 @@ int main(void) {
 
     player.draw();
 
+    for (auto* e : enemies) e->draw();
+
     for (auto* b : bullets) b->draw();
 
     EndMode2D();
 
-    DrawText("rhalq", 10, 10, 20, MAROON);
+    DrawRectangle(0, 0, 400, 100, BLUE);
+    DrawText("rhalq", 10, 5, 20, MAROON);
+    DrawText("wasd to move", 10, 10, 5, MAROON);
+    DrawText("space to shoot", 10, 15, 5, MAROON);
+    DrawText("shift to blink", 10, 20, 5, MAROON);
 
     EndDrawing();
   }
 
+  for (auto* e : enemies) delete e;
   for (auto* b : bullets) delete b;
   CloseWindow();
   return 0;

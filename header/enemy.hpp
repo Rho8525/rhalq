@@ -7,9 +7,7 @@ class Enemy {
     float size;
     float speed;
     Vector2 vel;
-    bool isShooting;
-    bool isAlive;
-    Enemy(Vector2 p = {0, 0});
-    void update(float dt);
+    Enemy(Vector2 p);
+    void update(float dt, Vector2 t);
     void draw(void);
 };

@@ -4,12 +4,15 @@
 
 Player::Player(Vector2 p) {
     pos = p;
+    layer = 3;
     size = 25.0f;
+    csize = 25.0f;
     speed = 500.0f;
     vel = {0.0f, 0.0f};
     dir = 0;
     forward = 0;
     isShooting = false;
+    isDodging = false;
     isAlive = true;
 }
 
@@ -20,6 +23,13 @@ void Player::update(float dt) {
         vel.x = input.x * speed;
         vel.y = input.y * speed;
     }
+
+    if (isDodging) {
+        vel.x *= 10;
+        vel.y *= 10;
+        isDodging = false;
+    }
+
     pos.x += vel.x * dt;
     pos.y += vel.y * dt;
 
@@ -27,19 +37,27 @@ void Player::update(float dt) {
     vel.y *= 0.8f;
 
     if (isShooting) {
-        size -= 5.0f;
+        csize -= 5.0f;
         isShooting = false;
     }
 
-    if (size < 25.0f) {
-        size += 0.05f;
+    if (csize < 25.0f) {
+        csize += 0.05f;
     }
 
-    if (size <= 0) isAlive = false;
+    if (csize <= 1) {
+        if (layer > 0) {
+            layer--;
+            csize = size;
+        } else {
+            isAlive = false;
+        }
+    }
 
-    if (!isAlive) size = 25.0f; isAlive = true;
+    if (!isAlive) csize = size; isAlive = true;
 }
 
 void Player::draw(void) {
-    DrawCircleV(pos, size, MAROON);
+    DrawCircleV(pos, csize, MAROON);
+    DrawCircleV(pos, 3, RED);
 }

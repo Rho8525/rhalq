@@ -1,5 +1,4 @@
-1. modify the shooting mechanics;
-2. create enemies;
-3. make dodge mechanics;
-4. make random generated levels;
-5. idk
+fix enemies
+make bullet do something
+make it more fun
+add more things
