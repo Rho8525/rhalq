@@ -1,4 +1,6 @@
 #include "header/bullet.hpp"
+#include "header/enemy.hpp"
+#include <iostream>
 #include <raylib.h>
 #include <raymath.h>
 
@@ -18,6 +20,13 @@ void Bullet::update(float dt) {
 
     life -= 0.05f;
 };
+
+void Bullet::check(Enemy* enemy) {
+    float dist = hypot(pos.x - enemy->pos.x, pos.y - enemy->pos.y);
+    if (dist - size - enemy->size <= 1.0f) {
+        std::cout << "hit" << std::endl;
+    }
+}
 
 void Bullet::draw(void) {
     Color c = Fade(RED, life);

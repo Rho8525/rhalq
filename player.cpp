@@ -1,6 +1,8 @@
 #include "header/player.hpp"
 #include <raylib.h>
 #include <raymath.h>
+#include <iostream>
+#include "header/enemy.hpp"
 
 Player::Player(Vector2 p) {
     pos = p;
@@ -12,7 +14,6 @@ Player::Player(Vector2 p) {
     dir = 0;
     forward = 0;
     isShooting = false;
-    isDodging = false;
     isAlive = true;
 }
 
@@ -22,12 +23,6 @@ void Player::update(float dt) {
         input = Vector2Normalize(input);
         vel.x = input.x * speed;
         vel.y = input.y * speed;
-    }
-
-    if (isDodging) {
-        vel.x *= 10;
-        vel.y *= 10;
-        isDodging = false;
     }
 
     pos.x += vel.x * dt;
@@ -60,4 +55,11 @@ void Player::update(float dt) {
 void Player::draw(void) {
     DrawCircleV(pos, csize, MAROON);
     DrawCircleV(pos, 3, RED);
+}
+
+void Player::check(Enemy* enemy) {
+    float dist = hypot(pos.x - enemy->pos.x, pos.y - enemy->pos.y);
+    if (dist - size - enemy->size <= 1.0f) {
+        std::cout << "hit" << std::endl;
+    }
 }

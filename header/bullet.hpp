@@ -1,5 +1,6 @@
 #pragma once
 #include <raylib.h>
+#include "enemy.hpp"
 
 class Bullet {
     public:
@@ -9,6 +10,7 @@ class Bullet {
         float size;
         Bullet(Vector2 p, Vector2 v);
         void update(float dt);
+        void check(Enemy* enemy);
         void draw(void);
         bool isDead(void);
 };

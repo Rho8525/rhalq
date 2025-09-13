@@ -29,6 +29,7 @@ int main(void) {
     float dt = GetFrameTime();
 
     player.update(dt);
+    player.check(enemies[0]);
 
     for (auto it = enemies.begin(); it != enemies.end();) {
       (*it)->update(dt, player.pos);
@@ -54,13 +55,9 @@ int main(void) {
       }
     }
 
-    // hmmm
-    if (IsKeyPressed(KEY_LEFT_SHIFT) || IsKeyPressed(KEY_RIGHT_SHIFT)) {
-      player.isDodging = true;
-    }
-
     for (auto it = bullets.begin(); it != bullets.end();) {
       (*it)->update(dt);
+      (*it)->check(enemies[0]);
       if ((*it)->isDead()) {
         delete *it;
         it = bullets.erase(it);
@@ -78,9 +75,9 @@ int main(void) {
 
     player.draw();
 
-    for (auto* e : enemies) e->draw();
+    for (auto& e : enemies) e->draw();
 
-    for (auto* b : bullets) b->draw();
+    for (auto& b : bullets) b->draw();
 
     EndMode2D();
 
@@ -93,8 +90,8 @@ int main(void) {
     EndDrawing();
   }
 
-  for (auto* e : enemies) delete e;
-  for (auto* b : bullets) delete b;
+  for (auto& e : enemies) delete e;
+  for (auto& b : bullets) delete b;
   CloseWindow();
   return 0;
 }

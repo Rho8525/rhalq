@@ -1,5 +1,6 @@
 #pragma once
 #include <raylib.h>
+#include "enemy.hpp"
 
 class Player {
   public:
@@ -12,9 +13,9 @@ class Player {
     short dir;
     short forward;
     bool isShooting;
-    bool isDodging;
     bool isAlive;
     Player(Vector2 p = {0, 0});
     void update(float dt);
     void draw(void);
+    void check(Enemy* enemy);
 };
