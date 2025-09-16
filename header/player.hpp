@@ -10,6 +10,7 @@ class Player {
     int layer; // layer or life
     float size; // max size
     float csize; // size
+    unsigned int xp;
     float speed; // speed
     Vector2 vel; // velocity
     short dir; // x direction

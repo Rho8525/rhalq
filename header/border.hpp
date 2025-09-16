@@ -8,7 +8,8 @@ class Border {
         Vector2 vel;
         float life;
         float size;
-        Border(Vector2 p, Vector2 v);
+        Vector2 center;
+        Border(Vector2 p, Vector2 v, Vector2 c);
         void update(float dt);
         void check(Enemy* enemy);
         void draw(void);

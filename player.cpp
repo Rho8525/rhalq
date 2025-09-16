@@ -12,6 +12,7 @@ Player::Player(Vector2 p) {
     layer = 3;
     size = 25.0f;
     csize = 25.0f;
+    xp = 0;
     speed = 500.0f;
     vel = {0.0f, 0.0f};
     dir = 0;
@@ -58,6 +59,8 @@ void Player::update(float dt) {
         }
     }
 
+    xp += 2;
+
     // if dead
     if (!isAlive) csize = size; isAlive = true;
 }
@@ -66,6 +69,7 @@ void Player::update(float dt) {
 void Player::draw(void) {
     DrawCircleV(pos, csize, MAROON);
     DrawCircleV(pos, 3, RED);
+    DrawText("Player", pos.x - csize, pos.y - csize * 2, 10, BLACK);
 }
 
 // chech if it collide with enemy

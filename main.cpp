@@ -60,7 +60,7 @@ int main(void) {
       player.isShooting = true;
       // deploy border
       for (int i=0; i <= 360; i+=2) {
-        borders.push_back(new Border(player.pos, (Vector2){cos(static_cast<float>(i)) * 30, sin(static_cast<float>(i)) * 30}));
+        borders.push_back(new Border(player.pos, (Vector2){cos(static_cast<float>(i)) * 30, sin(static_cast<float>(i)) * 30}, player.pos));
       }
     }
 
@@ -69,7 +69,10 @@ int main(void) {
       // update border
       (*it)->update(dt);
       // check if border collide with enemy
-      (*it)->check(enemies[0]);
+      //(*it)->check(enemies[0]);
+      for (auto e : enemies) {
+        (*it)->check(e);
+      }
       // check if its the time to disappear
       if ((*it)->isDead()) {
         // delete border
