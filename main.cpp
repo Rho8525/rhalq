@@ -36,12 +36,22 @@ int main(void) {
 
     // update player
     player.update(dt);
-    player.check(enemies[0]);
+    // check if player collide with enemy
+    for (auto& enemy : enemies) {
+      player.check(enemy);
+    }
 
     // update enemies
     for (auto it = enemies.begin(); it != enemies.end();) {
       (*it)->update(dt, player.pos);
-      ++it;
+      if (!(*it)->isAlive) {
+        // delete enemy
+        delete *it;
+        it = enemies.erase(it);
+      } else {
+        // continue to the next enemy
+        ++it;
+      }
     }
 
     // update camera
@@ -69,7 +79,6 @@ int main(void) {
       // update border
       (*it)->update(dt);
       // check if border collide with enemy
-      //(*it)->check(enemies[0]);
       for (auto e : enemies) {
         (*it)->check(e);
       }

@@ -50,8 +50,8 @@ void Player::update(float dt) {
     }
 
     // if get  too small
-    if (csize <= 5.0f) {
-        if (layer > 0) {
+    if (csize <= 10.0f) {
+        if (layer > 1) {
             layer--;
             csize = size;
         } else {
@@ -69,7 +69,7 @@ void Player::update(float dt) {
 void Player::draw(void) {
     DrawCircleV(pos, csize, MAROON);
     DrawCircleV(pos, 3, RED);
-    DrawText("Player", pos.x - csize, pos.y - csize * 2, 10, BLACK);
+    DrawText("Player", pos.x - 18, pos.y - csize * 2, 10, BLACK);
 }
 
 // chech if it collide with enemy

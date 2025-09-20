@@ -27,11 +27,11 @@ void Border::update(float dt) {
 // check if enemy hit border
 void Border::check(Enemy* enemy) {
     float dist = hypot(pos.x - enemy->pos.x, pos.y - enemy->pos.y);
-    if (dist - size - enemy->size <= 1.0f) {
+    if (dist - size - enemy->csize <= 1.0f) {
         std::cout << "hit" << std::endl;
         float angle = atan2(enemy->pos.y - center.y, enemy->pos.x - center.x);
-        float lx = cos(angle) * (hypot(pos.x - center.x, pos.y - center.y) + size + enemy->size);
-        float ly = sin(angle) * (hypot(pos.x - center.x, pos.y - center.y) + size + enemy->size);
+        float lx = cos(angle) * (hypot(pos.x - center.x, pos.y - center.y) + size + enemy->csize);
+        float ly = sin(angle) * (hypot(pos.x - center.x, pos.y - center.y) + size + enemy->csize);
         enemy->pos = (Vector2){center.x + lx, center.y + ly};
     }
 }
